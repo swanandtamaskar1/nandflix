@@ -3,27 +3,25 @@ function Login() {
         <div className="h-screen w-full bg-black flex items-center justify-center">
             <h1 className="absolute top-6 left-10
                text-[#E50914]
-               text-5xl
+               text-6xl
                tracking-widest
                drop-shadow-[0_0_12px_rgba(239,68,68,0.8)]"
     style={{ fontFamily: "Bebas Neue, sans-serif" }}>
   NANDFLIX
 </h1>
 
-
-
             {/* Background image */}
 
             <div className="absolute inset-0">
                 <img
-                    src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4"
-                    className="w-full h-full object-cover opacity-20"
+                    src="https://images.unsplash.com/photo-1535016120720-40c646be5580?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    className="w-full h-full object-cover opacity-40"
                 />
             </div>
 
             {/* Login Card */}
             <div className="relative bg-black/80 p-10 rounded-lg w-[380px]">
-                <h2 className="text-2xl font-bold mb-6">Sign In</h2>
+                <h2 className="text-2xl text-[#E50914] font-bold mb-6">Sign In</h2>
 
                 <input
                     type="email"
