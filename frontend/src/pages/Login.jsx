@@ -1,4 +1,62 @@
+import { useState } from "react";
+import axios from "axios";
+
+import { useNavigate } from "react-router-dom";
+
+import { useEffect } from "react";
+
+
+
+
+
+
 function Login() {
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            navigate("/home");
+        }
+
+    }, [navigate]);
+
+
+    const handleLogin = async () => {
+
+        if (!email || !password) {
+            alert("Please enter email and password");
+            return;
+        }
+
+        try {
+
+            setLoading(true); // ⭐ ADD THIS
+
+            const res = await axios.post(
+                "http://localhost:5000/login",
+                { email, password }
+            );
+
+            localStorage.setItem("token", res.data.token);
+            navigate("/home");
+
+        } catch (err) {
+
+            alert("Invalid credentials");
+            setLoading(false); // ⭐ ADD THIS
+
+        }
+    };
+
+
     return (
         <div className="h-screen w-full bg-black flex items-center justify-center">
             <h1 className="absolute top-6 left-10
@@ -6,9 +64,9 @@ function Login() {
                text-6xl
                tracking-widest
                drop-shadow-[0_0_12px_rgba(239,68,68,0.8)]"
-    style={{ fontFamily: "Bebas Neue, sans-serif" }}>
-  NANDFLIX
-</h1>
+                style={{ fontFamily: "Bebas Neue, sans-serif" }}>
+                NANDFLIX
+            </h1>
 
             {/* Background image */}
 
@@ -26,35 +84,33 @@ function Login() {
                 <input
                     type="email"
                     placeholder="Email"
-                    className="w-full p-3 mb-4 
-             bg-gray-800/70 
-             text-white 
-             placeholder-gray-400
-             rounded 
-             outline-none 
-             focus:ring-2 
-             focus:ring-red-600"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full p-3 mb-4 bg-gray-800/70 text-white placeholder-gray-400 rounded outline-none focus:ring-2 focus:ring-red-600"
                 />
 
                 <input
                     type="password"
                     placeholder="Password"
-                    className="w-full p-3 mb-6 
-             bg-gray-800/70 
-             text-white 
-             placeholder-gray-400
-             rounded 
-             outline-none 
-             focus:ring-2 
-             focus:ring-red-600"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full p-3 mb-6 bg-gray-800/70 text-white placeholder-gray-400 rounded outline-none focus:ring-2 focus:ring-red-600"
                 />
 
 
-                <button className="w-full bg-red-700 hover:bg-red-600
-                   p-3 rounded font-semibold 
-                   transition duration-200">
-                    Sign In
+
+                <button
+                    onClick={handleLogin}
+                    disabled={loading}
+                    className="w-full bg-red-700 hover:bg-red-600 
+               p-3 rounded font-semibold 
+               transition duration-200
+               disabled:bg-gray-600 disabled:cursor-not-allowed"
+                >
+                    {loading ? "Signing in..." : "Sign In"}
                 </button>
+
+
 
             </div>
 
