@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { tmdb } from "../api/tmdb";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
+import MovieModal from "./MovieModal";
 
 
 
@@ -11,48 +12,49 @@ function MovieRow({ title, fetchUrl, customMovies }) {
 
     const rowRef = useRef(null);
 
-const scrollLeft = () => {
-    rowRef.current.scrollBy({
-        left: -rowRef.current.offsetWidth,
-        behavior: "smooth"
-    });
-};
+    const scrollLeft = () => {
+        rowRef.current.scrollBy({
+            left: -rowRef.current.offsetWidth,
+            behavior: "smooth"
+        });
+    };
 
-const scrollRight = () => {
-    rowRef.current.scrollBy({
-        left: rowRef.current.offsetWidth,
-        behavior: "smooth"
-    });
-};
+    const scrollRight = () => {
+        rowRef.current.scrollBy({
+            left: rowRef.current.offsetWidth,
+            behavior: "smooth"
+        });
+    };
 
+    const [selectedMovie, setSelectedMovie] = useState(null);
 
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
 
-    if (customMovies) {
-        setMovies(customMovies);
-        return;
-    }
-
-    const fetchMovies = async () => {
-
-        try {
-
-            const res = await tmdb.get(fetchUrl);
-
-            setMovies(
-                res.data.results.filter(m => m.poster_path)
-            );
-
-        } catch (err) {
-            console.log(err);
+        if (customMovies) {
+            setMovies(customMovies);
+            return;
         }
-    };
 
-    fetchMovies();
+        const fetchMovies = async () => {
 
-}, [fetchUrl, customMovies]);
+            try {
+
+                const res = await tmdb.get(fetchUrl);
+
+                setMovies(
+                    res.data.results.filter(m => m.poster_path)
+                );
+
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        fetchMovies();
+
+    }, [fetchUrl, customMovies]);
 
 
     return (
@@ -83,15 +85,17 @@ const scrollRight = () => {
 
                 {/* MOVIE ROW */}
                 <div
-    ref={rowRef}
-    className="flex gap-4 overflow-hidden"
->
+                    ref={rowRef}
+                    className="flex gap-4 overflow-hidden"
+                >
 
 
 
                     {movies.map(movie => (
 
                         <img
+                            onClick={() => setSelectedMovie(movie)}
+
                             key={movie.id}
                             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                             alt={movie.title}
@@ -122,6 +126,13 @@ const scrollRight = () => {
 
 
             </div>
+            {selectedMovie && (
+                <MovieModal
+                    movie={selectedMovie}
+                    onClose={() => setSelectedMovie(null)}
+                />
+            )}
+
 
         </div>
     );
