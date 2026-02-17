@@ -1,4 +1,4 @@
-function Hero({ movie }) {
+function Hero({ movie, onPlay, onMoreInfo }) {
 
     if (!movie) return null;
 
@@ -25,11 +25,17 @@ function Hero({ movie }) {
 
                 <div className="flex gap-4">
 
-                    <button className="bg-white text-black px-6 py-2 rounded font-semibold">
+                    <button
+                        onClick={() => onPlay(movie)}
+                        className="bg-white text-black px-6 py-2 rounded font-semibold"
+                    >
                         ▶ Play
                     </button>
 
-                    <button className="bg-gray-700 px-6 py-2 rounded">
+                    <button
+                        onClick={() => onMoreInfo(movie)}
+                        className="bg-gray-700 px-6 py-2 rounded text-white"
+                    >
                         More Info
                     </button>
 

@@ -2,13 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { tmdb } from "../api/tmdb";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-import MovieModal from "./MovieModal";
+function MovieRow({ title, fetchUrl, customMovies, onMovieSelect }) {
 
-
-
-
-
-function MovieRow({ title, fetchUrl, customMovies }) {
 
     const rowRef = useRef(null);
 
@@ -25,8 +20,6 @@ function MovieRow({ title, fetchUrl, customMovies }) {
             behavior: "smooth"
         });
     };
-
-    const [selectedMovie, setSelectedMovie] = useState(null);
 
     const [movies, setMovies] = useState([]);
 
@@ -94,7 +87,8 @@ function MovieRow({ title, fetchUrl, customMovies }) {
                     {movies.map(movie => (
 
                         <img
-                            onClick={() => setSelectedMovie(movie)}
+                            onClick={() => onMovieSelect(movie)}
+
 
                             key={movie.id}
                             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -126,13 +120,6 @@ function MovieRow({ title, fetchUrl, customMovies }) {
 
 
             </div>
-            {selectedMovie && (
-                <MovieModal
-                    movie={selectedMovie}
-                    onClose={() => setSelectedMovie(null)}
-                />
-            )}
-
 
         </div>
     );

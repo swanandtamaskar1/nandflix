@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { tmdb } from "../api/tmdb";
 
-function MovieModal({ movie, onClose }) {
+function MovieModal({ movie, onClose, autoPlay = false }) {
 
     const [videoKey, setVideoKey] = useState(null);
 
@@ -48,11 +48,13 @@ function MovieModal({ movie, onClose }) {
 
                 {videoKey ? (
                     <iframe
+                        key={videoKey}
                         className="w-full h-[500px]"
-                        src={`https://www.youtube.com/embed/${videoKey}?autoplay=1`}
+                        src={`https://www.youtube.com/embed/${videoKey}${autoPlay ? "?autoplay=1" : ""}`}
                         allow="autoplay; encrypted-media"
                         allowFullScreen
                     />
+
 
                 ) : (
                     <p className="text-white">No trailer available</p>
