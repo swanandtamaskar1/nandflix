@@ -8,9 +8,10 @@ import MovieModal from "../components/MovieModal";
 
 
 function Home() {
-    const [selectedMovie, setSelectedMovie] = useState(null);
-
     const [trending, setTrending] = useState([]);
+    const [selectedMovie, setSelectedMovie] = useState(null);
+    const [autoPlay, setAutoPlay] = useState(false);
+
 
     useEffect(() => {
 
@@ -43,9 +44,16 @@ function Home() {
 
             <Hero
                 movie={heroMovie}
-                onPlay={(movie) => setSelectedMovie(movie)}
-                onMoreInfo={(movie) => setSelectedMovie(movie)}
+                onPlay={(movie) => {
+                    setAutoPlay(true);
+                    setSelectedMovie(movie);
+                }}
+                onMoreInfo={(movie) => {
+                    setAutoPlay(false);
+                    setSelectedMovie(movie);
+                }}
             />
+
 
 
             <div className="bg-black text-white px-6 pb-10">
@@ -53,27 +61,43 @@ function Home() {
                 <MovieRow
                     title="Trending"
                     customMovies={trendingWithoutHero}
-                    onMovieSelect={(movie) => setSelectedMovie(movie)}
+                    onMovieSelect={(movie) => {
+                        setAutoPlay(true);
+                        setSelectedMovie(movie);
+                    }}
+
                 />
 
 
                 <MovieRow
                     title="Top Rated"
                     fetchUrl="/movie/top_rated"
-                    onMovieSelect={(movie) => setSelectedMovie(movie)}
+                    onMovieSelect={(movie) => {
+                        setAutoPlay(true);
+                        setSelectedMovie(movie);
+                    }}
+
                 />
 
 
                 <MovieRow
                     title="Action"
                     fetchUrl="/discover/movie?with_genres=28"
-                    onMovieSelect={(movie) => setSelectedMovie(movie)}
+                    onMovieSelect={(movie) => {
+                        setAutoPlay(true);
+                        setSelectedMovie(movie);
+                    }}
+
                 />
 
                 <MovieRow
                     title="Comedy"
                     fetchUrl="/discover/movie?with_genres=35"
-                    onMovieSelect={(movie) => setSelectedMovie(movie)}
+                    onMovieSelect={(movie) => {
+                        setAutoPlay(true);
+                        setSelectedMovie(movie);
+                    }}
+
                 />
 
             </div>
@@ -81,8 +105,9 @@ function Home() {
                 <MovieModal
                     movie={selectedMovie}
                     onClose={() => setSelectedMovie(null)}
-                    autoPlay={true}
+                    autoPlay={autoPlay}
                 />
+
 
             )}
 
